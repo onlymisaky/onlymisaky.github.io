@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="git基本使用"><meta name="keywords" content="git"><meta name="author" content="onlymisaky"><meta name="copyright" content="onlymisaky"><title>git基本使用 | Mikasa</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Mikasa" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">创建仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">获取代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">添加代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">提交代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text">推送代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81-%E8%AE%B0%E5%BD%95"><span class="toc-number">7.</span> <span class="toc-text">状态 &amp; 记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E4%BF%AE%E6%94%B9"><span class="toc-number">8.</span> <span class="toc-text">取消修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E6%B7%BB%E5%8A%A0"><span class="toc-number">9.</span> <span class="toc-text">取消添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E6%8F%90%E4%BA%A4"><span class="toc-number">10.</span> <span class="toc-text">取消提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B"><span class="toc-number">11.</span> <span class="toc-text">远程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF"><span class="toc-number">12.</span> <span class="toc-text">分支</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-number">13.</span> <span class="toc-text">标签</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH"><span class="toc-number"></span> <span class="toc-text">SSH</span></a></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/data/img/avatar.png"></div><div class="author-info__name text-center">onlymisaky</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">24</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Mikasa</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/slides">演讲</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">git基本使用</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-03-07</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git config –global user.name <code>YourName</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git config –global user.email <code>YourEmail</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git config credential.helper store –file&#x3D;git_credentails</td>
+<td>记住密码 （win10 默认可以记住）</td>
+</tr>
+<tr>
+<td>git config –global core.autocrlf true</td>
+<td></td>
+</tr>
+<tr>
+<td>git config –global core.autocrlf input</td>
+<td></td>
+</tr>
+<tr>
+<td>git config –global core.autocrlf false</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git init</td>
+<td></td>
+</tr>
+<tr>
+<td>touch .gitigonre</td>
+<td>创建忽略清单</td>
+</tr>
+<tr>
+<td>git init –bare</td>
+<td>创建远程仓库 文件夹以 <code>.git</code> 结尾</td>
+</tr>
+</tbody></table>
+<h2 id="获取代码"><a href="#获取代码" class="headerlink" title="获取代码"></a>获取代码</h2><p><strong>Remote → Local</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git clone <code>Repo</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git pull</td>
+<td></td>
+</tr>
+<tr>
+<td>git pull <code>Repo</code> <code>RemoteBranch</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git pull <code>Repo</code> <code>RemoteBranch</code>:<code>LocalBranch</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="添加代码"><a href="#添加代码" class="headerlink" title="添加代码"></a>添加代码</h2><p><strong>工作区 → 暂存区</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git add <code>PathName/FileName</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git add .</td>
+<td>保存新的添加和修改，但是不包括删除</td>
+</tr>
+<tr>
+<td>git add -u</td>
+<td>保存修改和删除，但是不包括新建文件</td>
+</tr>
+<tr>
+<td>git add *</td>
+<td>全部提交</td>
+</tr>
+<tr>
+<td>git add -A</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h2><p><strong>暂存区 → 分支</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git commit -m ‘’</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="推送代码"><a href="#推送代码" class="headerlink" title="推送代码"></a>推送代码</h2><p><strong>Local → Remote</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git push</td>
+<td></td>
+</tr>
+<tr>
+<td>git push <code>Repo</code> <code>LocalBranch</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git pust</td>
+<td></td>
+</tr>
+<tr>
+<td>git push <code>Repo</code> <code>LocalBranch</code>:<code>RemoteBranch</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="状态-记录"><a href="#状态-记录" class="headerlink" title="状态 &amp; 记录"></a>状态 &amp; 记录</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git status</td>
+<td></td>
+</tr>
+<tr>
+<td>git log</td>
+<td></td>
+</tr>
+<tr>
+<td>git log –graph</td>
+<td></td>
+</tr>
+<tr>
+<td>git reflog</td>
+<td>所有操作记录，包括 <code>reset</code></td>
+</tr>
+<tr>
+<td>git diff <code>FileName</code></td>
+<td>工作区(work dict)和暂存区(stage)的比较</td>
+</tr>
+<tr>
+<td>git diff –cached</td>
+<td>暂存区(stage)和分支(master)的比较</td>
+</tr>
+<tr>
+<td>git stash</td>
+<td>保存当前状态</td>
+</tr>
+<tr>
+<td>git stash list</td>
+<td>查看所有以保存的状态</td>
+</tr>
+<tr>
+<td>git stash pop</td>
+<td>恢复状态并删除</td>
+</tr>
+<tr>
+<td>git stash apply</td>
+<td>恢复状态，状态不会被删除</td>
+</tr>
+<tr>
+<td>git stash drop</td>
+<td>删除状态</td>
+</tr>
+</tbody></table>
+<h2 id="取消修改"><a href="#取消修改" class="headerlink" title="取消修改"></a>取消修改</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git checkout – <code>PathName/FileName</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="取消添加"><a href="#取消添加" class="headerlink" title="取消添加"></a>取消添加</h2><p><strong>暂存区 → 工作区</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git reset HEAD <code>PathName/FileName</code></td>
+<td>把暂存区的文件移动到工作区</td>
+</tr>
+</tbody></table>
+<h2 id="取消提交"><a href="#取消提交" class="headerlink" title="取消提交"></a>取消提交</h2><p><strong>分支 → 暂存区</strong></p>
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git reset –hard <code>head_id</code></td>
+<td>已经commit的代码会丢失</td>
+</tr>
+<tr>
+<td>git reset –soft <code>head_id</code></td>
+<td>已经commit的代码会回到暂存区</td>
+</tr>
+<tr>
+<td>git reset –mixed <code>head_id</code></td>
+<td>没试</td>
+</tr>
+<tr>
+<td>git revert <code>head_id</code> &amp; git push</td>
+<td>回滚已经push到远程仓库的代码</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意：git revert是用一次新的commit来回滚之前的commit，git reset是直接删除指定的commit，看似达到的效果是一样的,其实完全不同。</p>
+</blockquote>
+<ol>
+<li>上面我们说的如果你已经push到线上代码库, reset 删除指定commit以后,你git push可能导致一大堆冲突.但是revert 并不会</li>
+<li>如果在日后现有分支和历史分支需要合并的时候,reset 恢复部分的代码依然会出现在历史分支里.但是revert 方向提交的commit 并不会出现在历史分支里</li>
+<li>reset 是在正常的commit历史中,删除了指定的commit,这时 HEAD 是向后移动了,而 revert 是在正常的commit历史中再commit一次,只不过是反向提交,他的 HEAD 是一直向前的</li>
+</ol>
+<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git remote add origin <code>RemoteRepo</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git remote add <code>Name</code> <code>RemoteRepo</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git remote set-url origin <code>NewRemoteRepo</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git remote -v</td>
+<td></td>
+</tr>
+<tr>
+<td>git remote rm <code>Name</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git branch <code>BranchName</code></td>
+<td>创建分支</td>
+</tr>
+<tr>
+<td>git checkout <code>BranchName</code></td>
+<td>切换分支</td>
+</tr>
+<tr>
+<td>git checkout -b <code>BranchName</code></td>
+<td>创建并切换分支</td>
+</tr>
+<tr>
+<td>git merge <code>BranchName</code></td>
+<td>合并到当前分支</td>
+</tr>
+<tr>
+<td>git branch , git branch -a , git branch -r</td>
+<td>查看分支</td>
+</tr>
+<tr>
+<td>git branch -m <code>OldBranchName</code> <code>NewBranchName</code></td>
+<td>重命名分支</td>
+</tr>
+<tr>
+<td>git push orign <code>BranchName</code>:<code>BranchName</code></td>
+<td>创建远程分支</td>
+</tr>
+<tr>
+<td>git branch -d <code>BranchName</code></td>
+<td>删除本地分支</td>
+</tr>
+<tr>
+<td>git branch -D <code>BranchName</code></td>
+<td>强制删除没有合并的本地分支</td>
+</tr>
+<tr>
+<td>git push orign :<code>RemoteBranchName</code></td>
+<td>删除远程分支</td>
+</tr>
+<tr>
+<td>git push origin –delete <code>RemoteBranchName</code></td>
+<td>删除远程分支</td>
+</tr>
+<tr>
+<td>git fetch -p</td>
+<td>修剪远程分支</td>
+</tr>
+</tbody></table>
+<p>创建分支后，只要没有执行commit操作,所做的修改不属于任何一个分支</p>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><table>
+<thead>
+<tr>
+<th>command</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git tag <code>TagName</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git tag -a <code>TagName</code> -m ‘’</td>
+<td></td>
+</tr>
+<tr>
+<td>git tag</td>
+<td>查看标签</td>
+</tr>
+<tr>
+<td>git tag -l <code>TagNameLike</code></td>
+<td>查看制定标签</td>
+</tr>
+<tr>
+<td>git ls-remote –tags</td>
+<td>查看远程标签</td>
+</tr>
+<tr>
+<td>git push origin <code>TagName</code></td>
+<td></td>
+</tr>
+<tr>
+<td>git push origin –tags</td>
+<td>推送所有标签</td>
+</tr>
+<tr>
+<td>git tag -d <code>TagName</code></td>
+<td>删除本地标签</td>
+</tr>
+<tr>
+<td>git push origin –delete tag <code>TagName</code></td>
+<td>删除远程标签</td>
+</tr>
+<tr>
+<td>git push origin :<code>TagName</code></td>
+<td>删除远程标签</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/27712995">Git 里面的 origin 到底代表啥意思?</a></p>
+<p><img src="http://img.blog.csdn.net/20160813000020921" alt="image"></p>
+<p><img src="/2018/03/07/%E5%A4%9A%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5.jpg" alt="多分支开发"></p>
+<h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa <span class="comment"># 创建密钥</span></span><br><span class="line">ssh 用户名@主机地址 <span class="comment"># ssh连接</span></span><br></pre></td></tr></table></figure>
+
+<p>密钥保存在<code>C:\Users\用户名\.ssh\id_rsa.pub</code>文件内</p>
+</div></article><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">git</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="/data/img/wechat.jpeg"><div class="post-qr-code__desc">请我喝杯咖啡</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="/data/img/alipay.jpg"><div class="post-qr-code__desc">请我喝杯咖啡</div></div></div><div class="social-share pull-right"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/03/08/"><i class="fa fa-chevron-left">  </i><span>Cmder Windows 下的终端神器</span></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'YrE19blOm57GQPNTt88rSVH1-gzGzoHsz',
+  appKey:'oRNhpwKhbCysF0mGtcnONIQA',
+  placeholder:'快来评论吧',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2024 By onlymisaky</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Hey! You Find Me!</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

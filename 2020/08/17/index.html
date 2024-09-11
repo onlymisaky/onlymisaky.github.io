@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="vue-property-decorator"><meta name="keywords" content=""><meta name="author" content="onlymisaky,undefined"><meta name="copyright" content="onlymisaky"><title>vue-property-decorator | Mikasa</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reset.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/theme/night.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/monokai.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Mikasa" type="application/atom+xml">
+</head><body><div class="reveal"><div class="slides"><section data-markdown data-separator="====分页====" data-separator-vertical="----分段----" data-charset="utf-8"><script type="text/template">### vue-property-decorator
+
+分享人：onlymisaky
+<!-- .element: class="fragment fade-up" -->
+====分页====
+
+
+# Why
+----分段----
+# TypeScript
+----分段----
+## 🤔🤔🤔
+## Why TypeScript
+<!-- .element: class="fragment" -->
+----分段----
+## 😍🤤
+![ts真香](ts真香.gif)
+<!-- .element: class="fragment" -->
+====分页====
+
+
+# How
+----分段----
+options api
+
+![options api](options api.png)
+<!-- .element: class="fragment" style="max-height: 60vh;" -->
+----分段----
+Vue.extends
+
+![Vue.extends1](Vue.extends1.png)
+<!-- .element: class="fragment" style="max-height: 60vh;" -->
+----分段----
+![Vue.extends2](Vue.extends2.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+
+💩💩💩
+### 宁愿不用
+<!-- .element: class="fragment" -->
+----分段----
+### 等一等，还有别的办法
+----分段----
+### 借鉴大法！！
+----分段----
+![React](React.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![ng](ng.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+### 或许我们也可以😏...
+====分页====
+
+
+## vue-class-component
+----分段----
+![VueClass1](VueClass1.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![VueClass2](VueClass2.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+
+### 还是不好用😤😤
+![进入主题](进入主题.gif)
+<!-- .element: class="fragment" -->
+----分段----
+![装饰器](装饰器.gif)
+====分页====
+
+
+# @Decorator
+<p class="fragment">AOP（面向切面）</p>
+<p class="fragment">装饰模式</p>
+<p class="fragment">TC39</p>
+<p class="fragment">ECMAScript</p>
+----分段----
+* Stage 0: strawman（想法）——最初想法的提交。
+<!-- .element: class="fragment" -->
+* Stage 1: proposal（提案）——由TC39至少一名成员倡导的正式提案文件，该文件包括API事例。
+<!-- .element: class="fragment" -->
+<li class="fragment">
+  <span class="fragment highlight-red">
+    Stage 2: draft（草案）——功能规范的初始版本，该版本包含功能规范的两个实验实现。
+  </span>
+</li>
+* Stage 3: candidate（候选）——提案规范通过审查并从厂商那里收集反馈
+<!-- .element: class="fragment" -->
+* Stage 4: finished（完成）——提案准备加入ECMAScript，但是到浏览器或者Nodejs中可能需要更长的时间
+<!-- .element: class="fragment" -->
+----分段----
+- ClassDecorator
+<!-- .element: class="fragment" -->
+- PropertyDecorator
+<!-- .element: class="fragment" -->
+- MethodDecorator
+<!-- .element: class="fragment" -->
+- ParameterDecorator
+<!-- .element: class="fragment" -->
+====分页====
+
+
+## ClassDecorator
+![ClassDecorator签名](ClassDecorator签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Singleton.Class](Singleton.Class.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Singleton.Decorator](Singleton.Decorator.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+## PropertyDecorator
+![PropertyDecorator签名](PropertyDecorator签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![readonly](readonly.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+## MethodDecorator
+![MethodDecorator签名](MethodDecorator签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Auth](Auth.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Auth.Fn](Auth.Fn.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Auth.Decorator](Auth.Decorator.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+## ParameterDecorator
+![ParameterDecorator签名](ParameterDecorator签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+- notNull
+- nestjs @Req() @Query @Param()
+====分页====
+
+# Component
+![Component签名](Component签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Component用法](Component用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Component转换](Component转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+## Data
+<!-- .element: class="fragment" -->
+## Methods
+<!-- .element: class="fragment" -->
+## Computed
+<!-- .element: class="fragment" -->
+## Life cycle
+<!-- .element: class="fragment" -->
+----分段----
+![Component.Class用法](Component.Class用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Component.Class转换](Component.Class转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Mixins
+![Mixins签名](Mixins签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Mixins用法](Mixins用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Mixins转换](Mixins转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Prop
+![Prop签名](Prop签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Prop用法](Prop用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Prop转换](Prop转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# PropSync
+![PropSync签名](PropSync签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![PropSync用法](PropSync用法.png)
+----分段----
+![PropSync转换](PropSync转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Model
+![Model签名](Model签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Model用法](Model用法.png)
+----分段----
+![Model转换](Model转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Watch
+![Watch签名](Watch签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Watch用法](Watch用法.png)
+----分段----
+![Watch转换](Watch转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Provide
+![Provide签名](Provide签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Provide用法](Provide用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Provide转换](Provide转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Inject
+![Inject签名](Inject签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Inject用法](Inject用法.png)
+----分段----
+![Inject转换](Inject转换.png)
+====分页====
+
+
+# Emit
+![Emit签名](Emit签名.png)
+<!-- .element: class="fragment" style="max-height: 60vh;" -->
+----分段----
+![Emit用法](Emit用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Emit转换](Emit转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Ref
+![Ref签名](Ref签名.png)
+<!-- .element: class="fragment" -->
+----分段----
+![Ref用法](Ref用法.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Ref转换](Ref转换.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Ref](Ref.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+# other
+----分段----
+### 增强类型提示
+src/shims-vue.d.ts
+<!-- .element:  class="fragment" data-fragment-index="0" -->
+![shims-vue.d](shims-vue.d.png)
+<!-- .element: class="fragment" data-fragment-index="0" style="max-height: 60vh;" -->
+----分段----
+![VueRouter.d](VueRouter.d.png)
+<!-- .element: style="max-height: 60vh;" -->
+----分段----
+![Vuex.d](Vuex.d.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# VueRouter
+----分段----
+![router定义](router定义.png)
+<!-- .element: style="max-height: 60vh;" -->
+====分页====
+
+
+# Vuex
+----分段----
+- [vuex-class](https://github.com/ktsn/vuex-class/)
+- [vuex-module-decorators](https://github.com/championswimmer/vuex-module-decorators#readme)
+====分页====
+
+
+# 提问环节
+![提问环节](提问环节.gif)
+<!-- .element: class="fragment" -->
+====分页====
+
+
+![讲的很好](讲的很好.gif)
+### 愣着干啥，快👏👏👏
+<!-- .element: class="fragment" -->
+====分页====
+
+
+### 没有了，别翻了，快去吃饭吧
+====分页====
+
+### 我说的话你就这么不信吗
+====分页====
+
+
+都翻到这里了，原来我在你心里的分量也不错如此，算了你走吧
+====分页====
+
+
+我让你走你就走，你就不知道再多问一下吗，果然你的心里只有吃饭🥺🥺🥺
+</script></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/zoom/zoom.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/search/search.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/notes/notes.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/math/math.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/highlight.js"></script><script>Reveal.initialize({
+  mouseWheel: false,
+  transition: 'slide',
+  transitionSpeed: 'default',
+  parallaxBackgroundImage: '',
+  parallaxBackgroundSize: '',
+  parallaxBackgroundHorizontal: '',
+  parallaxBackgroundVertical: '',
+  autoSlide: false,
+  loop: false,
+  controlsLayout: 'bottom-right', // Determines where controls appear, "edges" or "bottom-right"
+  controlsBackArrows: 'faded',
+  progress: true,
+  showNotes: false,
+  autoPlayMedia: false,
+  backgroundTransition: 'fade',
+  markdown: {
+    smartypants: true
+  },
+  plugins: [
+  RevealMarkdown,
+  // Markdown
+  RevealHighlight,
+  // Search
+  RevealSearch,
+  // Speaker notes
+  RevealNotes,
+  // Zoom in and out with Alt+click
+  RevealZoom,
+  // MathJax
+  RevealMath
+  ]
+});</script></body></html>

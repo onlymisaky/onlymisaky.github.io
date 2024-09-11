@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="记一次node转发接口的配置经历"><meta name="keywords" content="webpack,node,http-proxy-middleware"><meta name="author" content="onlymisaky"><meta name="copyright" content="onlymisaky"><title>记一次node转发接口的配置经历 | Mikasa</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Mikasa" type="application/atom+xml">
+</head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/data/img/avatar.png"></div><div class="author-info__name text-center">onlymisaky</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">24</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Mikasa</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/slides">演讲</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">记一次node转发接口的配置经历</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-05-10</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>最近在对一个老项目前端部分进行重构，由于该项目中有一部分是用 <code>vue</code> 写的，所以重构的技术选型自然而然就是 vue 了。重构的目标是前后端分离，让前端代码可以更好的被维护。</p>
+<p>讨论完方案之后，撸起袖子开始干。首先用 <code>vue-cli</code> 快速搭建项目，既然是前后端分离，那接口肯定要做一下转发，这都不算事，<code>webpack</code> 的 <code>devServer</code> 集成了 <code>http-proxy-middleware</code> 这个中间件，转发接口so easy。</p>
+<p>由于后端提供的接口不是 <code>restful</code> 风格的，也没有个统一的 <code>prefix</code> ，这样就需要将所有的接口列举出来，然后遍历转发，所以为了让 <code>proxy</code> 配置更加简单，需要在请求的时候做一些处理，如果是 <code>development</code> 环境 ，就统一加上一个 <code>prefix</code> ，如果是 <code>production</code> 环境就不加，vue-cli 已经帮我们集成好了环境变量，所以只要在统一封装的 http 请求中加上一行就好了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> prefix = process.<span class="property">env</span>.<span class="property">NODE_ENV</span> === <span class="string">&#x27;development&#x27;</span> ? <span class="string">&#x27;/api&#x27;</span> : <span class="string">&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>webpack 中配置也很简单：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// config/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* some config code */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">proxyTable</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://xxx.dev.com/&#x27;</span>,</span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;^/api&#x27;</span>: <span class="string">&#x27;/&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* some config code */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>是的，就是这么简单，<code>npm run dev</code> 跑起来，然而，出现了这一幕：</p>
+<p><img src="/2018/05/10/chrome%E8%AF%B7%E6%B1%82%E6%8A%A5%E9%94%99.png" alt="chrome请求报错"></p>
+<p><img src="/2018/05/10/%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF.png" alt="错误信息"></p>
+<p><code>500</code> 服务器又打盹了？但是这个返回信息不像是服务器返回的信息啊，咋回事？</p>
+<ul>
+<li>会不会是我配置错了？不应该啊，这么简单怎么可能配置错呢？</li>
+<li>是接口的问题？也不可能啊，postman 可以跑的通啊。</li>
+<li>难道是后端做了处理，禁止转发？更不可能啊，有这技术还不把爬虫搞死。</li>
+</ul>
+<p>要不我用 <code>node</code> 来请求一下试试看吧，但是。。。还是报错了</p>
+<p><img src="/2018/05/10/node%E8%AF%B7%E6%B1%82%E6%8A%A5%E9%94%99.png" alt="node请求报错"></p>
+<p>错误信息：<strong>certificate has expired</strong> 。虽然我的英语很垃圾，但是还是能猜出来啥意思 <strong>证书过期</strong>。等等，这个错误在重点里面也出现了：</p>
+<p><img src="/2018/05/10/%E7%BB%88%E7%AB%AF%E9%94%99%E8%AF%AF.png" alt="终端错误"></p>
+<p><strong>CERT_HAS_EXPIRED</strong> </p>
+<p>不要慌，既然终端有提示，那咱就点进链接去看看，然而我并没有在提示的链接中找到任何相关的错误信息 </p>
+<p><img src="/2018/05/10/node%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3.png" alt="node官方文档"></p>
+<p>这一刻，我感觉我被针对了，但是依旧不能慌，冷静思考一下，证书是啥玩意，好像有点印象，<code>https</code> 需要 <code>SSL</code> 证书，而且我转发的这个接口确实是 <code>https</code> 。真相浮出水面了，当我用浏览器打开转发的这个接口时，也就更加确信了我的想法</p>
+<p><img src="/2018/05/10/https%E9%94%99%E8%AF%AF.png" alt="https错误"></p>
+<p>最终在 <code>stackoverflow</code> 找到了解决方案</p>
+<p><img src="/2018/05/10/stackoverflow.png" alt="stackoverflow"></p>
+<p>试一下效果</p>
+<p><img src="/2018/05/10/node%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F.png" alt="node请求成功"></p>
+<p>破费！完美解决这个问题！BTW ， 怎么在 webpack 中解决呢，我试了在所有的配置文件中加上这一行神奇的代码，但是都没有效果，甚至借助了 <code>cross-env</code> 这个包在启动时修改环境变量，但最终都无济于事。难道要我去改 webpack 的源码吗？配置都那么头疼了，更别说改了。去给官方提个 <code>issue</code> ？ 一时半会也不会有人回应的。就在穷途末路之时，我有打开了 <code>http-proxy-middleware</code> 的 npm 主页，然后我发现了这一行</p>
+<p><img src="/2018/05/10/http-proxy-middleware.png" alt="http-proxy-middleware"></p>
+<p>一口老血喷了出来。为什么我这么懒不愿意去看文档！为什么我英语这么差读不懂文档！到底为什么！！！！</p>
+<p>总结：** http-proxy-middleware 转发不安全的 https 一定要将 secure 设置为 false**</p>
+<p>再总结：程序员已经要好好读文档，好好学英语。</p>
+</div></article><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/webpack/">webpack</a><a class="post-meta__tags" href="/tags/node/">node</a><a class="post-meta__tags" href="/tags/http-proxy-middleware/">http-proxy-middleware</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="/data/img/wechat.jpeg"><div class="post-qr-code__desc">请我喝杯咖啡</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="/data/img/alipay.jpg"><div class="post-qr-code__desc">请我喝杯咖啡</div></div></div><div class="social-share pull-right"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/07/04/"><i class="fa fa-chevron-left">  </i><span>震惊！JavaScript竟然可以类型推断！</span></a></div><div class="next-post pull-right"><a href="/2018/04/19/"><span>JavaScript 和 TypeScript 中的 class</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == 'true';
+var verify = 'false' == 'true';
+var record_ip = '' == 'true';
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  recordIP:record_ip,
+  appId:'YrE19blOm57GQPNTt88rSVH1-gzGzoHsz',
+  appKey:'oRNhpwKhbCysF0mGtcnONIQA',
+  placeholder:'快来评论吧',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2024 By onlymisaky</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">Hey! You Find Me!</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
