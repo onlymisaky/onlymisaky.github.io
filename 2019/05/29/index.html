@@ -1,0 +1,842 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="TypeScript"><meta name="keywords" content=""><meta name="author" content="onlymisaky,undefined"><meta name="copyright" content="onlymisaky"><title>TypeScript | Mikasa</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reset.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/theme/night.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/monokai.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Mikasa" type="application/atom+xml">
+</head><body><div class="reveal"><div class="slides"><section data-markdown data-separator="====分页====" data-separator-vertical="----分段----" data-charset="utf-8"><script type="text/template">
+<!-- .slide: data-background="#49B1F5" -->
+# TypeScript
+<br />
+
+<div class="fragment fade-up" data-fragment-index="1">分享人：</div><br /> 
+
+<div class="fragment fade-up" data-fragment-index="2">现任 『企鹅杏仁』 ~~最年轻的~~ 前端工程师 — 奥利安奇</div>
+
+====分页====
+<!-- .slide: data-background="#C7916B" -->
+## What?
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+TypeScript是JavaScript类型的超集，它可以编译成纯JavaScript。
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+TypeScript可以在任何浏览器、任何计算机和任何操作系统上运行，并且是开源的。
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+简单的说
+
+<span class="fragment" data-fragment-index="1">Type</span>
+<span class="fragment" data-fragment-index="2" data-autoslide="500"> + JavaScript</span>
+<span class="fragment" data-fragment-index="3"> = TypeScript</span>
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+![ts和js的关系](ts和js的关系.png)
+<!-- /ppt/TypeScript/ -->
+====分页====
+<!-- .slide: data-background="#00C4B6" -->
+## Why?
+1. 静态类型检查
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+2. IDE 智能提示
+<!-- .element: class="fragment fade-up" data-fragment-index="2" --> 
+3. 代码重构
+<!-- .element: class="fragment fade-up" data-fragment-index="3" --> 
+4. 可读性
+<!-- .element: class="fragment fade-up" data-fragment-index="4" -->
+----分段----
+<!-- .slide: data-background="#00C4B6" -->
+倔强的你就是不想用
+
+* 你需要在 HTML 里大量嵌入 JavaScript 代码，而非 HTML 和 JavaScript 分离
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+
+* 项目中大量依赖了第三方 JavaScript 类库，并且这些类库没有 .d.ts 文件
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+
+* 你是 “微软雅黑” 
+<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+====分页====
+<!-- .slide: data-background="#1B9EF3" -->
+# 类型
+```typescript
+var/let/const 变量名: 类型 = 值;
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## number
+```TypeScript
+let num: number = 18;
+let hexLiteral: number = 0xf00d;
+let binaryLiteral: number = 0b1010;
+let octalLiteral: number = 0o744;
+```
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## string
+```TypeScript
+let name: string = 'qq';
+let word: string = `my name is ${word}`;
+```
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## boolean
+```TypeScript
+let isDone: boolean = true;
+```
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## null 和 undefined
+```TypeScript
+let n: null = null;
+let u: undefined = undefined;
+```
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## void 空值
+<small>空类型，表示没有类型，比如无返回值函数的返回值类型</small>
+```TypeScript
+function foo(): void { 
+
+}
+
+let unusable: void = undefined;
+```
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## any
+<small>任意类型，表示未知类型，比如动态内容（用户输入、或第三方类库）或不知道类型的东西（混合类型数组），可以声明any类型绕过类型检查</small>
+```TypeScript
+let str: any = 1;
+str = '1';
+```
+不要让你的代码成为AnyScript<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#1B9EF3" -->
+## never
+<small>绝不存在的值的类型，如永远不会返回的函数（必定抛异常的，或函数体有死循环的）的返回值类型</small>
+```TypeScript
+// 返回never的函数必须存在无法达到的终点
+function error(message: string): never {
+  throw new Error(message);
+}
+
+function infiniteLoop(): never {
+  while (true) {
+  }
+}
+```
+====分页====
+<!-- .slide: data-background="#002b36" -->
+只有这些怎么够呢？
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## Array
+```TypeScript
+let nums: number[] = [1, 2, 3];
+
+let strs: string[] = ['你', '好', '呀' , '！'];
+
+let baz: Array<any> = ['你', '好', 6 , true];
+```
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## Tuple
+<small>元组，表示一组固定数量的元素（不要求元素类型相同），如二元组，三元组</small>
+```TypeScript
+let status: [string, string, number] = ["DONE", "已结束", 4];
+```
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## Enum
+```TypeScript
+enum OrderStatus {
+  UNPAID = 0,
+  UNUSED,
+  USING,
+  INVALID,
+  DONE
+}
+
+let state: number = OrderStatus.DONE;
+```
+双向索引
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+```TypeScript
+let stateStr: string = OrderStatus[OrderStatus['DONE']]; // DONE
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## 类型断言
+<small>可以通过类型断言告知TypeScript编译器某个值的确切类型，类似于其它语言里的强制类型转换，区别在于类型断言只是编译时的，不像类型转换一样具有运行时影响</small>
+```typescript
+let someValue: any = "this is a string";
+// <type>
+let length1: number = (<string>someValue).length;
+// as type
+let length2: number = (someValue as string).length;
+```
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## 类型推断
+```typescript
+let myFavoriteNumber = 'seven';
+myFavoriteNumber = 7;
+// index.ts(2,1): 
+//  error TS2322: 
+//    Type 'number' is not assignable to type 'string'.
+```
+
+```typescript
+let myFavoriteNumber: string = 'seven';
+myFavoriteNumber = 7;
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+====分页====
+<!-- .slide: data-background="#69C282" -->
+表达能力还是不够
+<!-- .element: class="fragment fade-out" data-fragment-index="1" -->
+# interface
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#69C282" -->
+TypeScript的核心原则之一是对值所具有的结构进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
+----分段----
+<!-- .slide: data-background="#69C282" -->
+不喜欢看官方的描述？<!-- .element: class="fragment fade-out" data-fragment-index="1" -->
+
+interface就是用来描述对象的属性和方法，和C语言中的struct更像一些。
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#69C282" -->
+```TypeScript
+let fe1: { name: string, age: number } = {
+  name: '奥利安奇',
+  age: 18
+};
+
+let fe2: { name: string, age: number } = {
+  name: 'Xeon',
+  age: 18
+};
+
+// other fe...
+```
+----分段----
+<!-- .slide: data-background="#69C282" -->
+```TypeScript
+interface IFe {
+  name: string;
+  age: number;
+}
+```
+
+```TypeScript
+let fe1: IFe = {
+  name: '奥利安奇',
+  age: 18
+};
+
+let fe2: IFe = {
+  name: 'Xeon',
+  age: 18
+};
+
+// other fe...
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#69C282" -->
+## 可选属性
+```typescript
+interface IPatient {
+  name: string;
+  phone: string;
+  age: number;
+  idCode?: string 
+}
+```
+----分段----
+<!-- .slide: data-background="#69C282" -->
+## 只读属性
+```typescript
+interface IPatient {
+  readonly id: number;
+  name: string;
+  phone: string;
+  age: number;
+  idCode?: string
+}
+```
+----分段----
+<!-- .slide: data-background="#69C282" -->
+## 索引属性（任意属性）
+<small>有些场景下无法确定属性名称</small>
+```typescript
+interface IPatient {
+  name: string;
+  phone: string;
+  idCode?: string;
+  [prop: string]: string;
+}
+let patient: IPatient;
+patient['sex'] = '男';
+```
+<small class="fragment fade-up" data-fragment-index="1">一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集</small>
+----分段----
+<!-- .slide: data-background="#69C282" -->
+## 方法
+```typescript
+interface Base64 {
+  encode(input: string): string;
+  decode(input: string): string;
+}
+let base64: Base64;
+base64.encode('1234');
+base64.decode('sxdwwq');
+```
+----分段----
+<!-- .slide: data-background="#69C282" -->
+## 骚操作
+```typescript
+interface GetStrLength {
+  (str: string): number;
+}
+let foo: GetStrLength = (s: string) => s.length;
+
+interface Nums {
+  [index: number]: number;
+}
+let arr: Nums = [1, 2];
+```
+====分页====
+<!-- .slide: data-background="#1e1e1e" -->
+# 函数 
+```typescript
+function add(x: number, y: number): number {
+  return x + y;
+}
+```
+```typescript
+let add: (x: number, y: number) => number =
+  function (x: number, y: number): number { return x + y; };
+```
+----分段----
+<!-- .slide: data-background="#1e1e1e" -->
+## 可选参数
+<small>JavaScript里参数默认都是可选的（不传的默认undefined），而TypeScript认为每个参数都是必填的，除非显式声明可选参数</small>
+```typescript
+function buildName(firstName: string, lastName?: string) {
+  if (lastName)
+    return firstName + " " + lastName;
+  else
+    return firstName;
+}
+
+let result1 = buildName("Bob");
+let result2 = buildName("Bob", "Adams", "Sr.");  // error, too many parameters
+let result3 = buildName("Bob", "Adams");  
+```
+----分段----
+<!-- .slide: data-background="#1e1e1e" -->
+## 默认参数
+```typescript
+function buildName(firstName: string, lastName = "Smith") {
+  return firstName + " " + lastName;
+}
+buildName('Will', 123); //error 类型“123”的参数不能赋给类型“string”的参数
+```
+<small>带默认值的参数不需要放在必须参数的后面，但必须明确的传入 undefined值来获得默认值</small>
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+```typescript
+function buildName(firstName = "Will", lastName: string) {
+  return firstName + " " + lastName;
+}
+buildName(undefined, "Smith");
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#1e1e1e" -->
+## 剩余参数
+```typescript
+function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + " " + restOfName.join(" ");
+}
+buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+```
+----分段----
+<!-- .slide: data-background="#1e1e1e" -->
+## 重载
+```javascript
+$('a')
+$(document.querySelector('a'))
+$([])
+$(function () { })
+```
+====分页====
+<!-- .slide: data-background="#00c4b6" -->
+# Class
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+Minimal Class
+```javascript
+class Message {
+  static version = '1.0.0';
+  constructor() {
+    this.messages = [];
+  }
+  get hasReads() {
+    return this.messages.filter(item => !item.read)
+  }
+  add(msg) {
+    this.messages.push({
+      content: msg,
+      read: false
+    });
+  }
+  clear() {
+    this.messages = [];
+  }
+}
+```
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+## 访问控制修饰符
+- public：类的成员属性/方法默认都是public，没有访问限制
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+- private：无法在该类声明的外部访问其成员（如无法通过this.xxx访问私有成员）
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+- protected：与private类似，但在派生类中也可以访问受保护成员
+<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+```typescript
+class Animal {
+
+  private name: string;
+
+  constructor(theName: string) {
+    this.name = theName;
+  }
+
+  protected foo(): void {
+    console.log(this.name);
+  };
+
+  public move(distanceInMeters: number) {
+    console.log(`${this.name} moved ${distanceInMeters}m.`);
+  }
+}
+```
+**注意**，这些访问控制都只是编译时的限制，**运行时并不做强检查**。符合TypeScript的设计原则：
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+> 不给编译产物增加运行时开销
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+```javascript
+var Animal = /** @class */ (function () {
+  function Animal(theName) {
+    this.name = theName;
+  }
+  Animal.prototype.foo = function () {
+    console.log(this.name);
+  };
+  Animal.prototype.move = function (distanceInMeters) {
+    console.log(this.name + " moved " + distanceInMeters + "m.");
+  };
+  return Animal;
+}());
+```
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+but!!!!
+```javascript
+class RGBColor {
+	#hex
+	constructor(r, g, b) {
+		#hex = r * 0x10000 + g * 0x100 + b
+	}
+	toString() {
+		return `rgb(${this.red}, ${this.green}, ${this.blue})`
+	}
+	get red()   { return #hex >> 16 }
+	get green() { return (#hex >> 8) & 0xff }
+	get blue()  { return #hex & 0xff }
+	static equals(c1, c2) {
+		return c1.#hex === c2.#hex
+	}
+}
+```
+[Why not use the "private" keyword, like Java or C#?](https://github.com/tc39/proposal-private-fields/issues/14)
+<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+[A summary of feedback regarding the # sigil prefix](https://github.com/tc39/proposal-class-fields/issues/100)
+<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+## readonly修饰符
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+```typescript
+class Animal {
+  // 声明和赋值合并
+  constructor(public readonly name: string) { }
+}
+let a: Animal = new Animal('Tom');
+a.name = 'jerry'; 
+// Cannot assign to 'name' because it is a read-only property.ts(2540)
+```
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+## 抽象类
+```typescript
+abstract class Animal {
+  abstract makeSound(): void;
+  move(): void {
+    console.log('roaming the earch...');
+  }
+}
+```
+接口只能定义抽象方法
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+====分页====
+<!-- .slide: data-background="#49B1F5" -->
+# 泛型
+等等...我还没想好...☺️
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+
+不要问我了！我真不知道😭
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+```typescript
+import axios from 'axios';
+
+axios.get('/user/1').then(response => {
+  let user = response.data; // user长啥样 🤔🤔
+});
+
+axios.get('/patients').then(response => {
+  let patients = response.data; // patients又长啥样🤔🤔
+});
+```
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+## 泛型函数
+```typescript
+function createArray<T>(length: number, value: T): T[] {
+  let result = [];
+  for (let i = 0; i < length; i++) {
+    result[i] = value;
+  }
+  return result;
+}
+```
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+## 泛型接口
+```typescript
+interface GenericIdentityFn {
+  <T>(arg: T): T;
+}
+```
+```typescript
+interface GenericIdentity<T> {
+  id(arg: T): T;
+  idArray(...args: T[]): T[];
+}
+```
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+## 泛型类
+```typescript
+class Component<IProp, IState>{
+  constructor(
+    public readonly prop: IProp,
+    state: IState
+  ) { }
+}
+
+interface AppProp {
+  name: string;
+}
+interface AppState {
+  count: number;
+}
+
+const App = 
+  new Component<AppProp, AppState>({ name: 'MyAPP' }, { count: 1 });
+```
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+## 泛型约束
+```typescript
+class Component<IProp extends { parentName: string }, IState>  {
+  constructor(
+    public readonly prop: IProp,
+    state: IState
+  ) { }
+}
+```
+----分段----
+<!-- .slide: data-background="#49B1F5" -->
+## 泛型参数的默认类型
+```typescript
+function createArray<T = string>(length: number, value: T): Array<T> {
+  let result: T[] = [];
+  for (let i = 0; i < length; i++) {
+    result[i] = value;
+  }
+  return result;
+}
+```
+====分页====
+<!-- .slide: data-background="#C7916B" -->
+# TSX
+<small>TypeScript 也支持JSX，只需 2 步，即可使用 TypeScript 写 JSX：</small>
+1. 源码文件用.tsx扩展
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+2. 开启--jsx选项
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+![tsx](tsx.png)
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+- preserve：生成.jsx文件，但保留 JSX 语法不转换，交给后续构建环节（如Babel）处理
+- react：生成.js文件，将 JSX 语法转换成React.createElement
+- react-native：生成.js文件，但保留 JSX 语法不转换
+----分段----
+<!-- .slide: data-background="#C7916B" -->
+```jsx
+class App extends React.Component {
+  render() {
+    return (<div>App</div> );
+  }
+}
+```
+====分页====
+<!-- .slide: data-background="#00c4b6" -->
+# 框架
+----分段----
+## Angular
+<!-- .slide: data-background="#00c4b6" -->
+[Angular](https://angular.cn/)
+
+[hero](https://angular.cn/generated/live-examples/toh-pt6/stackblitz.html)
+- 支持最好
+- 开箱即用
+- 工具链丰富
+----分段----
+<!-- .slide: data-background="#00c4b6" -->
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: [ './dashboard.component.css' ]
+})
+export class DashboardComponent implements OnInit {
+  heroes: Hero[] = [];
+
+  constructor(private heroService: HeroService) { }
+
+  ngOnInit() {
+    this.getHeroes();
+  }
+
+  getHeroes(): void {
+    this.heroService.getHeroes()
+      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
+  }
+}
+```
+----分段----
+## React
+<!-- .slide: data-background="#00c4b6" -->
+- npm i create-react-app -g<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+- create-react-app myApp --typescritp<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+函数式组件
+
+<img src="函数式组件.png" width="70%">
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+class组件
+
+<img src="class组件.png" width="65%">
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+## Vue
+[vue-class-component](https://github.com/vuejs/vue-class-component)、
+[vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)、
+[vuex-class](https://github.com/ktsn/vuex-class/)、
+[TodoMvc-vue](https://github.com/onlymisaky/TodoMvc-vue)
+- vue cli 内置了 TypeScript 工具支持
+- 在 Vue 的下一个大版本 (3.x) 中也计划了相当多的 TypeScript 支持改进
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+```typescript
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { State } from "vuex-class";
+import TodoHeader from "@/components/todo-header.vue";
+import TodoMain from "@/components/todo-main.vue";
+import TodoFooter from "@/components/todo-footer.vue";
+import { saveTodos } from "@/utils/store.ts";
+import { Todo } from "@/types/todo";
+@Component({
+  components: {
+    TodoHeader,
+    TodoMain,
+    TodoFooter
+  }
+})
+export default class App extends Vue {
+  @State(state => state.todo.todoList)
+  todoList!: Todo[];
+  @Watch("todoList", { deep: true, immediate: true })
+  todoListChange(todos: Todo[]) {
+    saveTodos(todos);
+  }
+}
+```
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+## But!!
+[the Class API proposal is being dropped](https://github.com/vuejs/rfcs/pull/17#issuecomment-494242121)<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+
+所以没有折腾精神，追求稳定，还是等Vue3吧
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+
+[Vue Function-based API RFC](https://zhuanlan.zhihu.com/p/68477600)<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+## [nest](https://docs.nestjs.cn/)
+
+<img src="nest-logo.svg" width="50%">
+----分段----
+<!-- .slide: data-background="#00c4b6" --> 
+用于构建高效且可伸缩的服务端应用程序的渐进式 Node.js 框架。
+
+- 完美支持 Typescript<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+- 面向 AOP 编程<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+- 支持 typeorm<!-- .element: class="fragment fade-up" data-fragment-index="3" -->
+- Node.js 版的 spring<!-- .element: class="fragment fade-up" data-fragment-index="4" -->
+- 构建微服务应用<!-- .element: class="fragment fade-up" data-fragment-index="5" -->
+====分页====
+<!-- .slide: data-background="#002b36" -->
+# BB这么多，到底怎么用？
+----分段----
+<!-- .slide: data-background="#002b36" --> 
+<img src="tsc.gif" width="100%"/>
+----分段----
+<!-- .slide: data-background="#002b36" --> 
+## tsconfig.js
+<small  class="fragment fade-up" data-fragment-index="1">告诉typescript如何编译ts文件，比如前面提到的`--jsx`选项，编译后的js版本(`target`等等)</small>
+
+<small  class="fragment fade-up" data-fragment-index="2">如果一个目录下存在一个`tsconfig.json`文件，那么它意味着这个目录是TypeScript项目的根目录。` tsconfig.json`文件中指定了用来编译这个项目的根文件和编译选项。</small>
+
+[编译选项](https://www.tslang.cn/docs/handbook/compiler-options.html)<!-- .element: class="fragment fade-up" data-fragment-index="4" -->
+----分段----
+<!-- .slide: data-background="#002b36" --> 
+## webpack
+```javascript
+module.exports = {
+  entry: "./src/index.tsx",
+  output: {
+    filename: "bundle.js",
+    path: __dirname + "/dist"
+  },
+  resolve: { 
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
+  module: {
+    rules: [
+      { test: /\.tsx?$/, loader: "ts-loader" },
+    ]
+  }
+};
+```
+----分段----
+<!-- .slide: data-background="#002b36" -->
+## gulp
+```javascript
+var gulp = require("gulp");
+var ts = require("gulp-typescript");
+var tsProject = ts.createProject("tsconfig.json");
+
+gulp.task("default", function () {
+  return tsProject.src()
+    .pipe(tsProject())
+    .js.pipe(gulp.dest("dist"));
+});
+```
+====分页====
+<!-- .slide: data-background="#69c282" -->
+# 声明文件
+
+并不是所有的文件都是使用typescript编写的，当使用这些由JavaScript编写的第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+----分段----
+## 获取声明文件途径
+<!-- .slide: data-background="#69c282" -->
+- [TypeSearch](http://microsoft.github.io/TypeSearch/)
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+<p class="fragment fade-up" data-fragment-index="2">`@types/react`、 `@types/react-dom` 、`types/react-redux` ...</p>
+<p class="fragment fade-up" data-fragment-index="3">仓库地址：[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/)</p>
+
+----分段----
+<!-- .slide: data-background="#69c282" -->
+- 自己动手编写([声明文件编写介绍](https://www.tslang.cn/docs/handbook/declaration-files/introduction.html))
+
+```typescript
+declare let jQuery: (selector: string) => any;
+```
+<!-- .element: class="fragment fade-up" data-fragment-index="1" -->
+编写声明文件也是学习typescript的一个很好的入门途径
+<!-- .element: class="fragment fade-up" data-fragment-index="2" -->
+====分页====
+<!-- .slide: data-background="#1e1e1e" -->
+# JSDOC
+----分段----
+<!-- .slide: data-background="#1e1e1e" -->
+- [JSDOC](http://usejsdoc.org/)
+- [震惊！JavaScript 竟然可以类型推断！](https://gitlab.aihaisi.com/docs/docs/issues/423)
+<img src="JSDoc.png" class="fragment fade-up" data-fragment-index="1" width="60%"/>
+====分页====
+<!-- .slide: data-background="#49B1F5" -->
+# 谢谢
+<p class="fragment fade-up" data-fragment-index="1">打游戏时拿命在C的<h3 class="fragment fade-up" data-fragment-index="2">奥利安奇</h3></p>
+</script></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/zoom/zoom.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/search/search.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/notes/notes.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/math/math.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/highlight.js"></script><script>Reveal.initialize({
+  mouseWheel: false,
+  transition: 'slide',
+  transitionSpeed: 'default',
+  parallaxBackgroundImage: '',
+  parallaxBackgroundSize: '',
+  parallaxBackgroundHorizontal: '',
+  parallaxBackgroundVertical: '',
+  autoSlide: false,
+  loop: false,
+  controlsLayout: 'bottom-right', // Determines where controls appear, "edges" or "bottom-right"
+  controlsBackArrows: 'faded',
+  progress: true,
+  showNotes: false,
+  autoPlayMedia: false,
+  backgroundTransition: 'fade',
+  markdown: {
+    smartypants: true
+  },
+  plugins: [
+  RevealMarkdown,
+  // Markdown
+  RevealHighlight,
+  // Search
+  RevealSearch,
+  // Speaker notes
+  RevealNotes,
+  // Zoom in and out with Alt+click
+  RevealZoom,
+  // MathJax
+  RevealMath
+  ]
+});</script></body></html>

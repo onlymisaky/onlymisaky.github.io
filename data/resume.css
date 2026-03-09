@@ -1,0 +1,24 @@
+/* 使用 markdown-it 渲染 */
+
+.markdown-body {
+  padding: 10px 32px 0px !important;
+  border-style: none !important;
+}
+
+a {
+  color: #409eff !important;
+}
+
+hr {
+  /* margin: 20px 0px !important; */
+}
+
+strong > code {
+  background-color: #fff !important;
+  color: #000 !important;
+  padding: 5px 6px !important;
+  border-radius: 10px !important;
+  border: 1px solid #ccc !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}/*# sourceMappingURL=resume.css.map */
