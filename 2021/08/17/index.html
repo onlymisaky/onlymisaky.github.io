@@ -1,0 +1,487 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="前端脚手架"><meta name="keywords" content="node,cli,前端工程化"><meta name="author" content="onlymisaky,undefined"><meta name="copyright" content="onlymisaky"><title>前端脚手架 | Mikasa</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reset.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/theme/night.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/monokai.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Mikasa" type="application/atom+xml">
+</head><body><div class="reveal"><div class="slides"><section data-markdown data-separator="====分页====" data-separator-vertical="----分段----" data-charset="utf-8"><script type="text/template">
+# 前端脚手架
+
+====分页====
+
+## 什么是 CLI
+
+----分段----
+
+CLI (Command Line Interface) ，顾名思义是一种通过命令行来交互的工具或者说应用。前端常用的 CLI 有 @angular/cli 、 @vue/cli 、 create-react-app 。
+
+它们可以帮助开发者减少低级重复劳动，专注业务提高开发效率，规范 develop workflow。<!-- .element: class="fragment" -->
+
+====分页====
+
+## 为什么要用 CLI
+
+----分段----
+
+我们可以将工作中繁杂、有规律可循、或者简单重复劳动的工作用 CLI 来完成，只需一些命令，快速完成简单基础劳动。现有工作中的可以用 CLI 完成的工作有：
+
+----分段----
+
+- 快速生成应用模板，创建 module 模板文件
+- 服务启动，如 ng serve<!-- .element: class="fragment" -->
+- eslint ，代码校验<!-- .element: class="fragment" -->
+- 自动化测试<!-- .element: class="fragment" -->
+- 编译build<!-- .element: class="fragment" -->
+
+总体而言就是一些快捷的操作替代人工重复劳动，提升开发效率。<!-- .element: class="fragment" -->
+
+====分页====
+
+## 与 npm scripts 相比
+
+----分段----
+
+npm scripts 也可以实现开发工作流，通过在 package.json 中配置 scripts 字段，执行相关命令，但 CLI 与 npm scripts 相比仍有自己优势：
+
+----分段----
+
+- npm scripts 只能在项目中使用， CLI 可以全局，到处使用
+- npm scripts 与业务耦合度高，而 CLI 可以和业务代码剥离<!-- .element: class="fragment" -->
+- CLI 可以单独迭代开发，改进原有功能，增加新特性<!-- .element: class="fragment" -->
+
+====分页====
+
+## package.json
+
+====分页====
+
+### name
+
+- 只能是小写字母、数字、~、-、_ 这些内容<!-- .element: class="fragment" -->
+- 不支持空格，使用连字符区分多个单词<!-- .element: class="fragment" -->
+- 支持 scope ，以 @name/ 开头，不过该形式的包托管到npm是收费的 (just 7$)<!-- .element: class="fragment" -->
+
+----分段----
+
+```shell
+npm init <initializer>
+```
+
+```shell
+npm init react-app project-name
+npm init vite@latest my-vue-app --template vue
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+```shell
+npx create-react-app project-name
+```
+
+### 等同于<!-- .element: class="fragment" -->
+
+```shell
+npm i create-react-app
+create-react-app project-name
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+命令 | 等同
+---|---
+npm init foo | npx create-foo
+npm init @user/foo | npx @user/create-foo
+npm init @user | npx @user/create
+
+====分页====
+
+### bin
+
+指定内部命令所对应可执行文件的位置<!-- .element: class="fragment" -->
+
+----分段----
+
+![vue命令](vue命令.png)
+
+----分段----
+
+```json
+{
+  "bin": {
+    "vue": "bin/vue.js"
+  }
+}
+```
+
+```js
+#!/usr/bin/env node
+```
+<!-- .element: class="fragment" -->
+
+====分页====
+
+### scripts
+
+Node.js 在设计 npm 之初，允许开发者在 package.json 文件中，通过 scripts 字段来自定义项目的脚本。<!-- .element: class="fragment" -->
+
+----分段----
+
+```json
+{
+  "scripts": {
+    "build": "node ./build.js",
+    "start": "node ./server.js"
+  }
+}
+```
+
+```bash
+npm run build
+npm run build
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+- 有些命令是不需要加 run 的，比如 npm start  、npm test 、 npm lint
+- 使用 & 符号并行执行多个 npm scripts ，使用 && 符号串行执行脚本
+
+----分段----
+
+- npm script 也是有钩子，分别是 pre 和 post ，对应执行前和执行后
+
+```json
+	{
+	  "scripts": {
+	    "prebuild": "eslint",
+	    "build": "node ./build.js",
+	    "postbuild": "npm start",
+	    "start": "node ./server.js"
+	  }
+}
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+- 可以通过 process.env.npm_** 来获取一些值
+  - process.env.npm_lifecycle_event 获取正在运行的脚本名称
+  - process.env.npm_package_** 获取 package.json 相关字段的值
+  - process.env.npm_config_argv 获取参数
+
+----分段----
+
+npm scripts 原理
+
+在执行 npm run xx 的时候会自动根据不同平台创建一个 shell ， 类 UNIX 中代指 /bin/sh ，Windows 中使用的是 cmd.exe ， npm scripts 脚本就在这个新创建的 shell 中被运行。<!-- .element: class="fragment" -->
+
+----分段----
+
+- 只要是 shell 可以运行的命令，都可以作为 npm scripts 脚本
+- npm 脚本的退出码，也自然遵循 shell 脚本规则
+- 如果系统里安装了 Python ，可以将 Python 作为 npm scripts
+- npm scripts 脚本可以使用 shell 的通配符等常规能力  { "scripts": { "lint": "eslint **/*.js" } }
+
+----分段----
+
+npm scripts 与 shell 的不同之处
+
+npm scripts 创建出来的 shell 会将当前目录的node_modules/.bin 子目录加入 PATH 变量中，执行完成后，再将 PATH 变量恢复。<!-- .element: class="fragment" -->
+
+```json
+{
+  "scripts": {
+    "build": "webpack"
+  }
+}
+```
+<!-- .element: class="fragment" data-index="2" -->
+等同于<!-- .element: class="fragment" data-index="3" -->
+```json
+{
+  "scripts": {
+    "build": "./node_modules/.bin/webpack"
+  }
+}
+```
+<!-- .element: class="fragment" data-index="3" -->
+
+====分页====
+
+## npm link
+
+====分页====
+
+## 命令行参数
+
+```shell
+npm run serve --prot=80
+node serve.js prot=80
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+- Unix 风格：前面加 -， 后面跟的是单个字符，例如 ls -l , ls -al 则相当于 ls -a -l；
+- GNU 风格：前面加 -- ，例如上面的 npm run serve --prot=80
+- BSD 风格：前面不叫任何修饰符 例如上面的 node serve.js prot=80
+
+----分段----
+
+参数别名
+
+--version -V<!-- .element: class="fragment" -->
+
+```js
+const alias = {
+  'save-dev': 'S',
+  'S': 'save-dev'
+};
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+nopt 、mri 、minimist 、yargs-parser 等，其中 mri 解析效率最高， minimist 覆盖参数输入形式最全。
+
+====分页====
+
+## 命令行交互
+
+![命令行交互](命令行交互.png)<!-- .element: class="fragment" -->
+
+----分段----
+
+```js
+const readline = require('readline');
+const questions = ['请输入姓名:', '请输入年龄:', '请输入性别:'];
+const answers = [];
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: questions[0]
+});
+rl.prompt();
+rl
+  .on('line', (line) => {
+    answers.push(line.trim());
+    while (answers.length === questions.length) {
+      rl.close();
+    }
+    rl.setPrompt(questions[answers.length])
+    rl.prompt();
+  })
+  .on('close', () => {
+    const result = questions
+      .map((v, i) => v.replace('请输入', '') + answers[i])
+      .join('，')
+    console.log(result);
+    process.exit(0);
+  });
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+常用的 CLI 交互库有 inquirer 、enquirer 、prompts 、 **commander**
+
+====分页====
+
+## 前端脚手架常见功能
+
+----分段----
+
+- 通过交互收集用户输入的信息，并创建 package.json
+- 提供 Babel 、TypeScript 、ESLint 、 StyleLint 、CSS 预处理器 这些常见的前端工具
+- 从 github 拉取模板并创建项目
+
+====分页====
+
+## 兼容 npm init <initializer>
+
+```json
+{
+  "name": "@onlymisaky/create-project",
+  "version": "0.0.1",
+  "bin": {
+    "@onlymisaky/create-project": ".bin/create-project.js",
+    "create-project": ".bin/create-project.js",
+    "pj": ".bin/index.js"
+  },
+  "author": "onlymisaky"
+}
+```
+<!-- .element: class="fragment" -->
+
+====分页====
+
+```js
+// create-project/.bin/create-project.js
+#!/usr/bin/env node
+const { program } = require('commander');
+program
+  .arguments('<项目名称>')
+  .action((name) => {
+    require('../lib/create')(name);
+  })
+  .parse();
+```
+
+----分段----
+
+```js
+// create-project/.bin/index.js
+#!/usr/bin/env node
+const { program } = require('commander');
+const pkg = require('../package.json');
+program
+  .version(pkg.version)
+  .description(pkg.description)
+  .usage('<command> [options]');
+program
+  .command('create <项目名称>')
+  .description('创建一个新项目')
+  .action((name) => {
+    require('./../lib/create')(name);
+  });
+program.parse();
+```
+
+----分段----
+
+- arguments 接收参数
+- command 注册命令
+- 在执行命令时( action ) 调用 lib/create 创建项目。
+
+====分页====
+
+## prompt 
+
+![prompt演示](prompt演示.png)<!-- .element: class="fragment" -->
+
+----分段----
+
+- message
+- name
+- type
+- default
+- when
+- choices
+
+----分段----
+
+```js
+{
+  name: 'my-project',
+  description: 'pj创建的项目',
+  author: 'onlymisaky',
+  features: ['babel', 'ts', 'eslint', 'stylelint', 'css-preprocessor'],
+  eslint: 'airbnb',
+  stylelint: 'standard',
+  git: true,
+  'git-msg': 'initial project'
+}
+```
+
+====分页====
+
+## 生成项目
+
+----分段----
+
+模板解析
+
+- ejs
+- handlebarsjs
+
+```js
+{{#eslint}}const createLintingRule = () => ({
+  test: /\.(js|ts|tsx)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+}){{/eslint}}
+```
+<!-- .element: class="fragment" -->
+
+----分段----
+
+<h3>本地模板</h3>
+
+or
+
+<h3>远程模板</h3>
+
+----分段----
+
+生成文件
+
+- fs.writeFile
+- metalsmith
+
+----分段----
+
+### 插件方案
+
+提供一份最小模板，其余功能交由插件实现
+
+====分页====
+
+## 执行命令
+
+- require('child_process').exce
+- shelljs
+
+====分页====
+
+## 优化体验
+
+----分段----
+
+- chalk 使终端输出彩色文案
+- ora 让命令行显示loading
+- progress 进度条  
+
+====分页====
+
+## 没有提到，也很重要
+
+----分段----
+
+- 考虑平台兼容性
+- 命令要避免和常见的命令冲突<!-- .element: class="fragment" -->
+- 可扩展性<!-- .element: class="fragment" -->
+</script></section></div></div><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/zoom/zoom.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/search/search.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/notes/notes.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/math/math.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/markdown/markdown.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@latest/plugin/highlight/highlight.js"></script><script>Reveal.initialize({
+  mouseWheel: false,
+  transition: 'slide',
+  transitionSpeed: 'default',
+  parallaxBackgroundImage: '',
+  parallaxBackgroundSize: '',
+  parallaxBackgroundHorizontal: '',
+  parallaxBackgroundVertical: '',
+  autoSlide: false,
+  loop: false,
+  controlsLayout: 'bottom-right', // Determines where controls appear, "edges" or "bottom-right"
+  controlsBackArrows: 'faded',
+  progress: true,
+  showNotes: false,
+  autoPlayMedia: false,
+  backgroundTransition: 'fade',
+  markdown: {
+    smartypants: true
+  },
+  plugins: [
+  RevealMarkdown,
+  // Markdown
+  RevealHighlight,
+  // Search
+  RevealSearch,
+  // Speaker notes
+  RevealNotes,
+  // Zoom in and out with Alt+click
+  RevealZoom,
+  // MathJax
+  RevealMath
+  ]
+});</script></body></html>
